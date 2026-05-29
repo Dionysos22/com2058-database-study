@@ -1,6 +1,6 @@
 # Lab Özetleri (COM2058)
 
-Kaynak klasörler: `../LAB_eski/`, `../LAB_yeni/`
+Pratik SQL bu repoda: `sql/lab5_university.sql`, `sql/lab6_ornek.sql`, `sql/ogrenme/03_*`
 
 ---
 
@@ -60,13 +60,13 @@ FROM faculty f JOIN class c ON f.fid = c.fid
 GROUP BY f.fid, f.fname;
 ```
 
-**Dosya:** `sql/lab5_university.sql`
+**Dosya:** [`sql/lab5_university.sql`](../../sql/lab5_university.sql)
 
 ---
 
 ## LAB 6 – CUSTOMER / PART / ORDERS
 
-Tam çözüm: `../LAB_eski/LAB6/SOLUTION.txt` → `sql/lab6_ornek.sql`
+Tam çözüm: [`sql/lab6_ornek.sql`](../../sql/lab6_ornek.sql)
 
 Öğrenilenler:
 - **Composite PK:** `(ORDEREDON, NAME, PARTNUM)`

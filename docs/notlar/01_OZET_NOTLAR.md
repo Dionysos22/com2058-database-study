@@ -165,7 +165,7 @@ CREATE TABLE T (
 - **Schedule:** Serial vs non-serial
 - **Concurrency control:** Lock, 2PL, deadlock
 - **Isolation levels:** READ UNCOMMITTED … SERIALIZABLE
-- Finalde bazen kavram sorusu; `../ÇIKMIŞ/DATABASE MANAGEMENT_solation.pdf` dosyasına bak
+- Finalde bazen kavram sorusu; çıkmış isolation PDF’ine bak (üniversite materyali)
 
 ---
 

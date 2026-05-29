@@ -8,14 +8,14 @@ Süre yoksa **kalın** günleri önceliklendir.
 - [ ] Logical vs physical data independence
 - [ ] DDL, DML, SDL, VDL
 
-**Kaynak:** `01_OZET_NOTLAR.md` §1–2
+**Kaynak:** [01_OZET_NOTLAR.md](01_OZET_NOTLAR.md) §1–2
 
 ## Gün 2 – İlişkisel model (Ch3)
 - [ ] Relation, tuple, domain, schema vs instance
 - [ ] PK, FK, UNIQUE, CHECK, NULL
 - [ ] Integrity: entity, referential, domain
 
-**Pratik:** `sql/company_ornek_sorgular.sql` başı
+**Pratik:** [`sql/company_ornek_sorgular.sql`](../../sql/company_ornek_sorgular.sql) başı
 
 ## Gün 3 – SQL (Ch4–5) — **en kritik**
 - [ ] CREATE TABLE, constraints, ON DELETE/UPDATE
@@ -24,7 +24,7 @@ Süre yoksa **kalın** günleri önceliklendir.
 - [ ] GROUP BY, HAVING, aggregate
 - [ ] VIEW, TRIGGER (kavram)
 
-**Pratik:** `02_SQL_KILAVUZU.md` + Lab5/Lab6 SQL
+**Pratik:** [02_SQL_KILAVUZU.md](02_SQL_KILAVUZU.md) + Lab5/Lab6 SQL
 
 ## Gün 4 – ER / EER / Mapping (Ch7–9)
 - [ ] Entity, attribute, relationship, cardinality
@@ -32,22 +32,22 @@ Süre yoksa **kalın** günleri önceliklendir.
 - [ ] Ternary relationship, specialization
 - [ ] 7 adımlı ER→relational mapping
 
-**Pratik:** `08_PROJE_F1_OZET.md` + `03_ER_EER_OZET.md`
+**Pratik:** [08_PROJE_F1_OZET.md](08_PROJE_F1_OZET.md) + [03_ER_EER_OZET.md](03_ER_EER_OZET.md)
 
 ## Gün 5 – Cebir + Normalizasyon (Ch6, Ch15)
 - [ ] SELECT, PROJECT, JOIN, DIVISION
 - [ ] FD, closure, 2NF, 3NF, BCNF
 - [ ] Update anomaly, spurious tuple
 
-**Pratik:** `05_RELATIONAL_ALGEBRA.md`, `04_NORMALIZASYON.md`
+**Pratik:** [05_RELATIONAL_ALGEBRA.md](05_RELATIONAL_ALGEBRA.md), [04_NORMALIZASYON.md](04_NORMALIZASYON.md)
 
 ## Gün 6 – Çıkmış deneme
-- [ ] `06_CIKMIS_SORULAR_COZUM.md` – 120 dk zamanlı
-- [ ] `../ÇIKMIŞ/COM2058_Midterm_2023.pdf` görsel tekrar
-- [ ] `../ÇIKMIŞ/DATABASE MANAGEMENT_solation.pdf` kontrol
+- [ ] [06_CIKMIS_SORULAR_COZUM.md](06_CIKMIS_SORULAR_COZUM.md) – 120 dk zamanlı
+- [ ] Üniversite çıkmış PDF’lerini görsel tekrar (repoda yok)
+- [ ] Isolation / transaction çıkmış varsa kontrol
 
 ## Gün 7 – Tekrar + zayıf noktalar
-- [ ] `09_SINAV_ONCESI_KONTROL.md` tamamla
+- [ ] [09_SINAV_ONCESI_KONTROL.md](09_SINAV_ONCESI_KONTROL.md) tamamla
 - [ ] Yanlış yaptığın constraint / JOIN tiplerini tekrar yaz
 - [ ] F1 ERD’yi kağıda Chen ile çiz (5 dk)
 

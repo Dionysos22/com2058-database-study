@@ -1,5 +1,5 @@
 -- LAB5 - University schema (Lab5comblm258)
--- Kaynak: ../LAB_eski/LAB5/2058Lab5.sql
+-- COM2058 Lab5 - University schema
 
 USE Lab5comblm258;
 

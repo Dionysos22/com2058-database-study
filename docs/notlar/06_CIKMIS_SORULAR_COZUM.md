@@ -1,10 +1,10 @@
 # Çıkmış Sorular ve Model Çözümler
 
-Kaynaklar:
-- `../ÇIKMIŞ/COM2058_Midterm_2023.pdf`
-- `../ÇIKMIŞ/BLM2058Midterm2021 (1).pdf`
-- `../ÇIKMIŞ/DATABASE MANAGEMENT_solation.pdf`
-- `../CompanySchema.pdf`
+Kaynaklar (üniversite / sınıf materyali — repoda PDF yok):
+- COM2058 Midterm 2023
+- BLM2058 Midterm 2021
+- DATABASE MANAGEMENT isolation çözümleri
+- CompanySchema.pdf
 
 ---
 

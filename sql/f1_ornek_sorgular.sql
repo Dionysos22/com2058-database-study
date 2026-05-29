@@ -1,5 +1,5 @@
--- Formula 1 - ornek sorgular (Project/SAMPLE_QUERIES.sql ozeti)
--- Once: mysql < ../Project/Formula_1.sql
+-- Formula 1 - ornek sorgular
+-- Once: mysql < f1_schema.sql && mysql formula_1 < f1_demo_seed.sql
 
 USE formula_1;
 
@@ -47,4 +47,4 @@ WHERE rr.season_year = 2024 AND rr.round_number = 1
   AND rr.finish_position BETWEEN 1 AND 3
 ORDER BY rr.finish_position;
 
--- Tam liste: ../../Project/SAMPLE_QUERIES.sql
+-- Daha fazla ornek: docs/notlar/08_PROJE_F1_OZET.md

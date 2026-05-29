@@ -13,9 +13,8 @@ Bu doküman, **elle yazıp çalıştırarak** öğrenmen için hazırlandı. Teo
 5. [Modül 4: Lab5–Lab6 şemaları](#5-modül-4-lab5lab6-şemaları)
 6. [Modül 5: Formula 1 şeması (proje)](#6-modül-5-formula-1-şeması-proje)
 7. [Modül 6: İleri SQL (F1 sorguları)](#7-modül-6-ileri-sql-f1-sorguları)
-8. [Modül 7: Python + MySQL (FastAPI projesi)](#8-modül-7-python--mysql-fastapi-projesi)
-9. [Modül 8: Transaction kodu](#9-modül-8-transaction-kodu)
-10. [Çalıştırılabilir dosya listesi](#10-çalıştırılabilir-dosya-listesi)
+8. [Modül 7: Transaction kodu](#8-modül-7-transaction-kodu)
+9. [Çalıştırılabilir dosya listesi](#9-çalıştırılabilir-dosya-listesi)
 
 ---
 
@@ -30,27 +29,10 @@ brew services start mysql
 mysql -u root -p
 ```
 
-### Seçenek B — F1 projesi (Docker, önerilen)
+### İlk veritabanını yükle (COMPANY mini)
 
 ```bash
-cd "/Users/sarp/Desktop/üni/Database/Project/UPLOAD_READY"
-cp .env.example .env
-docker compose up -d
-```
-
-MySQL container ayağa kalkınca şema otomatik yüklenir:
-- `db/init/01_formula_1.sql` → tablolar
-- `db/init/02_seed_data.sql` → veri
-
-```bash
-# Container içinde MySQL
-docker compose exec db mysql -u f1user -pf1pass formula_1 -e "SHOW TABLES;"
-```
-
-### Öğrenme veritabanını yükle (COMPANY mini)
-
-```bash
-cd "/Users/sarp/Desktop/üni/Database/COM2058_Calisma_Paketi/sql/ogrenme"
+cd sql/ogrenme
 mysql -u root -p < 00_company_mini_schema.sql
 mysql -u root -p company_ogrenme < 02_select_join_adim_adim.sql
 ```
@@ -108,7 +90,7 @@ CREATE TABLE ogrenciler (
 
 ### 2.3 COMPANY mini şeması (sınav mantığı)
 
-Dosya: `sql/ogrenme/00_company_mini_schema.sql`
+Dosya: `../../sql/ogrenme/00_company_mini_schema.sql`
 
 Önemli parça — `WORKS_ON` (M:N ilişki tablosu):
 
@@ -133,7 +115,7 @@ CREATE TABLE WORKS_ON (
 
 ## 3. Modül 2: Constraint’leri kodla test et
 
-Dosya: `sql/ogrenme/01_ddl_ve_constraint_denemeleri.sql`
+Dosya: `../../sql/ogrenme/01_ddl_ve_constraint_denemeleri.sql`
 
 **Nasıl çalışılır:** Her bloğu **tek tek** MySQL’de çalıştır; hata alırsan mesajı oku — sınavda aynı isimleri yazacaksın.
 
@@ -189,7 +171,7 @@ Kontrol listesi:
 
 ## 4. Modül 3: SELECT ve JOIN adım adım
 
-Dosya: `sql/ogrenme/02_select_join_adim_adim.sql`
+Dosya: `../../sql/ogrenme/02_select_join_adim_adim.sql`
 
 ### 4.1 SELECT yapısı (mantıksal sıra)
 
@@ -300,7 +282,7 @@ Aynı tablo iki kez; alias şart (`E`, `M`).
 
 ## 5. Modül 4: Lab5–Lab6 şemaları
 
-Dosya: `sql/ogrenme/03_lab6_university.sql`
+Dosya: `../../sql/ogrenme/03_lab6_university.sql`
 
 ### Lab5 — composite PK
 
@@ -330,13 +312,13 @@ JOIN ORDERS O ON C.NAME = O.NAME
 JOIN PART P ON O.PARTNUM = P.PARTNUM;
 ```
 
-Tam COMPANY örnekleri: `sql/company_ornek_sorgular.sql`
+Tam COMPANY örnekleri: `../../sql/company_ornek_sorgular.sql`
 
 ---
 
 ## 6. Modül 5: Formula 1 şeması (proje)
 
-Proje dosyası: `Project/UPLOAD_READY/db/init/01_formula_1.sql`
+Şema dosyası: [`sql/f1_schema.sql`](../../sql/f1_schema.sql)
 
 ### 6.1 Weak entity — `races`
 
@@ -383,27 +365,20 @@ FOREIGN KEY (season_year, round_number)
 
 İki sütun birlikte parent PK’ya referans verir.
 
-### 6.4 İlk keşif sorguları
+### 6.4 Şemayı ve demo veriyi yükle
 
 ```bash
-docker compose exec db mysql -u f1user -pf1pass formula_1
-```
-
-```sql
-USE formula_1;
-SHOW TABLES;
-SELECT * FROM seasons LIMIT 5;
-SELECT season_year, COUNT(*) AS race_count
-FROM races
-GROUP BY season_year
-ORDER BY season_year DESC;
+cd sql
+mysql -u root -p < f1_schema.sql
+mysql -u root -p formula_1 < f1_demo_seed.sql
+mysql -u root -p formula_1 -e "SHOW TABLES; SELECT * FROM seasons;"
 ```
 
 ---
 
 ## 7. Modül 6: İleri SQL (F1 sorguları)
 
-Dosya: `Project/UPLOAD_READY/SAMPLE_QUERIES.sql`
+Dosya: [`sql/f1_ornek_sorgular.sql`](../../sql/f1_ornek_sorgular.sql)
 
 ### 7.1 Sezon yarışları (JOIN + ORDER BY)
 
@@ -457,122 +432,9 @@ WHERE td.season_year = 2024 AND td.team_id = 1
 ORDER BY td.role, td.seat_no;
 ```
 
-### 7.4 Sorguları otomatik test
-
-```bash
-cd Project/UPLOAD_READY
-source .venv/bin/activate
-python scripts/validate_sample_queries.py
-```
-
 ---
 
-## 8. Modül 7: Python + MySQL (FastAPI projesi)
-
-Ders kuralı: **ORM yok**, ham SQL.
-
-### 8.1 Bağlantı — `app/db.py`
-
-```python
-import pymysql
-from pymysql.cursors import DictCursor
-
-def get_conn(db_name: str):
-    return pymysql.connect(
-        host="127.0.0.1",
-        port=3306,
-        user="f1user",
-        password="f1pass",
-        database=db_name,
-        charset="utf8mb4",
-        cursorclass=DictCursor,  # satir = dict
-        autocommit=True,
-    )
-
-def query_all(sql: str, params=None) -> list[dict]:
-    conn = get_conn("formula_1")
-    try:
-        with conn.cursor() as cur:
-            cur.execute(sql, params)   # %s placeholder - SQL injection onlemi
-            return cur.fetchall()
-    finally:
-        conn.close()
-```
-
-| Kavram | Kod |
-|--------|-----|
-| Parametreli sorgu | `cur.execute(sql, (year,))` |
-| Tek satır | `fetchone()` |
-| Çok satır | `fetchall()` |
-
-### 8.2 Terminalden aynı sorgu (öğrenme)
-
-`scripts/ogrenme_python_mysql.py` dosyasını çalıştır (aşağıda oluşturuldu).
-
-### 8.3 API route — SQL nasıl kullanılıyor?
-
-`app/routes_races.py` özeti:
-
-```python
-@router.get("/api/races")
-def get_races(year: int | None = None):
-    where = []
-    params = []
-    if year is not None:
-        where.append("r.season_year = %s")
-        params.append(year)
-
-    query = f"""
-        SELECT r.season_year, r.grand_prix_name, c.circuit_name
-        FROM races r
-        JOIN circuits c ON c.circuit_id = r.circuit_id
-        {"WHERE " + " AND ".join(where) if where else ""}
-        ORDER BY r.race_start_date;
-    """
-    return query_all(query, tuple(params))
-```
-
-**Akış:** HTTP isteği → Python string SQL → MySQL → JSON liste.
-
-Tarayıcıda test: `http://127.0.0.1:8000/api/races?year=2024`
-
-### 8.4 Kendi mini API’n (isteğe bağlı)
-
-```python
-# tek dosya deneme - ogrenme_api.py
-from fastapi import FastAPI
-import pymysql
-from pymysql.cursors import DictCursor
-
-app = FastAPI()
-
-def q(sql, params=()):
-    conn = pymysql.connect(host="127.0.0.1", user="f1user", password="f1pass",
-                           database="formula_1", cursorclass=DictCursor)
-    with conn.cursor() as cur:
-        cur.execute(sql, params)
-        return cur.fetchall()
-
-@app.get("/drivers/top")
-def top_drivers(year: int = 2024):
-    return q("""
-        SELECT d.driver_code, SUM(rr.points) AS pts
-        FROM race_results rr
-        JOIN drivers d ON d.driver_id = rr.driver_id
-        WHERE rr.season_year = %s
-        GROUP BY d.driver_id, d.driver_code
-        ORDER BY pts DESC LIMIT 5
-    """, (year,))
-```
-
-```bash
-pip install fastapi uvicorn pymysql
-uvicorn ogrenme_api:app --reload
-```
-
----
-
-## 9. Modül 8: Transaction kodu
+## 8. Modül 7: Transaction kodu
 
 ```sql
 USE company_ogrenme;
@@ -609,35 +471,27 @@ SELECT Salary FROM EMPLOYEE WHERE Ssn = '333445555';
 
 ---
 
-## 10. Çalıştırılabilir dosya listesi
+## 9. Çalıştırılabilir dosya listesi
 
 | Dosya | Ne öğretir? |
 |-------|-------------|
 | `sql/ogrenme/00_company_mini_schema.sql` | DDL + FK + örnek veri |
-| `sql/ogrenme/01_ddl_ve_constraint_denemeleri.sql` | Sınav constraint soruları |
-| `sql/ogrenme/02_select_join_adim_adim.sql` | SELECT → JOIN → GROUP BY |
+| `sql/ogrenme/01_ddl_ve_constraint_denemeleri.sql` | Constraint sınavı |
+| `sql/ogrenme/02_select_join_adim_adim.sql` | SELECT → JOIN |
 | `sql/ogrenme/03_lab6_university.sql` | Lab5 + Lab6 |
-| `sql/company_ornek_sorgular.sql` | 10 COMPANY sorusu |
-| `sql/lab5_university.sql` | Lab5 sorguları |
-| `sql/lab6_ornek.sql` | Lab6 tam |
-| `sql/f1_ornek_sorgular.sql` | F1 12 sorgu |
-| `Project/UPLOAD_READY/SAMPLE_QUERIES.sql` | Proje resmi sorgular |
-| `Project/UPLOAD_READY/db/init/01_formula_1.sql` | Tam şema |
-| `scripts/ogrenme_python_mysql.py` | Python ile MySQL (bu klasörde) |
+| `sql/company_ornek_sorgular.sql` | COMPANY |
+| `sql/f1_schema.sql` + `f1_demo_seed.sql` | F1 şema + demo veri |
+| `sql/f1_ornek_sorgular.sql` | F1 sorguları |
 
-### Önerilen 2 haftalık kod planı
+### Önerilen plan
 
 | Gün | Görev |
 |-----|--------|
-| 1 | `00` + `01` — DDL ve hata mesajları |
-| 2 | `02` — her sorguyu çalıştır, sonucu yorumla |
-| 3 | `company_ornek_sorgular.sql` — 10 sorgu |
-| 4 | `03` + Lab6 |
-| 5 | Docker F1 + `SHOW TABLES` + 5 basit SELECT |
-| 6 | `SAMPLE_QUERIES.sql` 1–6 |
-| 7 | `db.py` oku + `/api/races` test |
-| 8 | Bir çıkmış constraint + 4 SQL (kağıt + MySQL doğrula) |
+| 1–2 | `sql/ogrenme/00`–`02` |
+| 3 | `company_ornek_sorgular.sql` |
+| 4 | `f1_schema` + `f1_demo_seed` + `f1_ornek` |
+| 5–7 | `docs/notlar/06_CIKMIS` + tekrar |
 
 ---
 
-**Sonraki adım:** `mysql -u root -p < sql/ogrenme/00_company_mini_schema.sql` ile başla; takıldığın sorguyu gönder, satır satır açıklayabilirim.
+**Sonraki adım:** `mysql -u root -p < ../../sql/ogrenme/00_company_mini_schema.sql` ile başla; takıldığın sorguyu gönder, satır satır açıklayabilirim.

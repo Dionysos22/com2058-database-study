@@ -4,9 +4,9 @@
 **Kaynak kitap:** Elmasri & Navathe, *Fundamentals of Database Systems*, 6. baskı  
 **Kapsam:** Ch01–09, Ch15 (normalizasyon), Ch21 (transaction) + Lab1–8 + Formula 1 projesi + çıkmış sınavlar  
 
-Bu doküman, `/Database` klasöründeki slaytlar, lab’ler, çıkmışlar ve projenin birleştirilmiş öğrenme rehberidir. Kısa özetler için bu klasördeki `01`–`09` dosyaları; bu dosya ise **A’dan Z’ye sistematik öğrenme** içindir.
+Bu doküman, COM2058 dersinin birleştirilmiş öğrenme rehberidir. Kısa özetler: [docs/notlar/](../notlar/). Bu dosya: **A’dan Z’ye sistematik teori**. Repo kökü: [README.md](../../README.md), hızlı başlangıç: [BASLA_BURADAN.md](../../BASLA_BURADAN.md).
 
-> **Kod ile öğrenme (uygulamalı):** [`DATABASE_KOD_ILE_OGRENME.md`](DATABASE_KOD_ILE_OGRENME.md) — SQL, constraint denemeleri, F1 şeması, Python/FastAPI örnekleri ve [`sql/ogrenme/`](sql/ogrenme/) altındaki çalıştırılabilir scriptler.
+> **Kod ile öğrenme (uygulamalı):** [`DATABASE_KOD_ILE_OGRENME.md`](DATABASE_KOD_ILE_OGRENME.md) — SQL, constraint denemeleri, F1 şeması ve [`../../sql/`](../../sql/) örnekleri.
 
 ---
 
@@ -50,18 +50,19 @@ Bu doküman, `/Database` klasöründeki slaytlar, lab’ler, çıkmışlar ve pr
 
 - **Seviye A (ilk geçiş):** Her bölümdeki *“Özet”* ve *“Ezber”* kutuları.
 - **Seviye B (anlama):** Örnekler, tablolar, SQL blokları — MySQL’de çalıştır.
-- **Seviye C (sınav/proje):** `` dosyaları + çıkmış PDF’ler.
+- **Seviye C (sınav/proje):** [docs/notlar/](../notlar/) dosyaları + çıkmış PDF’ler.
 
 ### Pratik ortam
 
 ```bash
-# MySQL (Docker ile proje)
-cd Project/UPLOAD_READY
-docker compose up -d
-mysql -h 127.0.0.1 -P 3306 -u f1user -p f1db
+# Yerel MySQL
+cd sql/ogrenme
+mysql -u root -p < 00_company_mini_schema.sql
 
-# Veya yerel MySQL + Lab SQL dosyaları
-mysql -u root -p < sql/lab5_university.sql
+# F1 ornekleri
+cd ../..
+mysql -u root -p < sql/f1_schema.sql
+mysql -u root -p formula_1 < sql/f1_demo_seed.sql
 ```
 
 ---
@@ -350,7 +351,7 @@ HAVING AVG(E.Salary) > 30000;
 | SET DEFAULT | FK → default değer |
 | RESTRICT / NO ACTION | İhlal varsa işlem **reddedilir** |
 
-Detaylı örnekler: `02_SQL_KILAVUZU.md`, `06_CIKMIS_SORULAR_COZUM.md`
+Detaylı örnekler: [02_SQL_KILAVUZU.md](../notlar/02_SQL_KILAVUZU.md), [06_CIKMIS_SORULAR_COZUM.md](../notlar/06_CIKMIS_SORULAR_COZUM.md)
 
 ### 5.9 Sık SQL örnekleri (COMPANY)
 
@@ -369,7 +370,7 @@ SELECT P.Pname FROM PROJECT P
 WHERE NOT EXISTS (SELECT 1 FROM WORKS_ON W WHERE W.Pno = P.Pnumber);
 ```
 
-Çalıştırılabilir set: `sql/company_ornek_sorgular.sql`
+Çalıştırılabilir set: `../../sql/company_ornek_sorgular.sql`
 
 ---
 
@@ -423,7 +424,7 @@ Sonuç ← T ÷ D
 
 Sınavda “TRC ile yaz” → SQL WHERE mantığına çok benzer; ∃ ve ∀ dikkat.
 
-Detay: `05_RELATIONAL_ALGEBRA.md`
+Detay: [05_RELATIONAL_ALGEBRA.md](../notlar/05_RELATIONAL_ALGEBRA.md)
 
 ---
 
@@ -535,7 +536,7 @@ Birden fazla superclass’tan gelen alt tip (ör. OWNER: PERSON | COMPANY | BANK
 | RESULTS | race_results |
 | STANDINGS | team_standings |
 
-Detay: `Project/ERD.md`, `03_ER_EER_OZET.md`
+Detay: [03_ER_EER_OZET.md](../notlar/03_ER_EER_OZET.md)
 
 ---
 
@@ -595,7 +596,7 @@ BCNF ⊂ 3NF ⊂ 2NF ⊂ 1NF
 
 **Bilinçli denormalizasyon:** `drivers.num_poles` vb. türetilmiş ama saklanan alanlar.
 
-Detay: `04_NORMALIZASYON.md`, `Project/REPORT.md`
+Detay: [04_NORMALIZASYON.md](../notlar/04_NORMALIZASYON.md)
 
 ---
 
@@ -643,8 +644,8 @@ Kaynak: `ÇIKMIŞ/DATABASE MANAGEMENT_solation.pdf`, Lab8.
 | 2 | ER okuma/çizim | Chen, cardinality | `LAB2/` |
 | 3 | SELECT, WHERE | Temel sorgu | `LAB3/` |
 | 4 | JOIN | Vize SQL temeli | `LAB4/` |
-| 5 | Üniversite şeması | JOIN, GROUP BY | `sql/lab5_university.sql` |
-| 6 | CUSTOMER/PART/ORDERS | FK, aggregate | `sql/lab6_ornek.sql` |
+| 5 | Üniversite şeması | JOIN, GROUP BY | `../../sql/lab5_university.sql` |
+| 6 | CUSTOMER/PART/ORDERS | FK, aggregate | `../../sql/lab6_ornek.sql` |
 | 7 | Alt sorgu, VIEW | İleri SQL | `LAB7/` |
 | 8 | Transaction, index | ACID kavram | `LAB8/` |
 
@@ -662,7 +663,7 @@ GROUP BY f.fid, f.fname;
 - Composite PK: `(ORDEREDON, NAME, PARTNUM)`
 - Çoklu JOIN + `SUM(QUANTITY * PRICE)`
 
-Tam özet: `07_LAB_OZETLERI.md`
+Tam özet: [07_LAB_OZETLERI.md](../notlar/07_LAB_OZETLERI.md)
 
 ---
 
@@ -672,12 +673,12 @@ Proje, dersin **tüm fazlarını** tek mini-world’de uygular.
 
 ### 13.1 Fazlar (COM2058)
 
-| Faz | Çıktı | Dosya |
-|-----|--------|--------|
-| 1 | Gereksinimler | `Project/Requirements.md` |
-| 2 | Chen ERD | `Project/ERD.pdf`, `ERD.md` |
-| 3 | MySQL + FastAPI (raw SQL) | `Formula_1.sql`, `app/` |
-| 4 | Rapor | `Project/REPORT.md` |
+| Faz | Çıktı | Bu repoda |
+|-----|--------|-----------|
+| 1 | Gereksinimler | [08_PROJE_F1_OZET](../notlar/08_PROJE_F1_OZET.md) |
+| 2 | Chen ERD | Aynı dosya (ER açıklaması) |
+| 3 | MySQL şema | `sql/f1_schema.sql` |
+| 4 | Örnek sorgular | `sql/f1_ornek_sorgular.sql` |
 
 ### 13.2 Varlıklar ve zayıf/ternary yapılar
 
@@ -701,8 +702,8 @@ WHERE r.season_year = 2024
 ORDER BY r.race_start_date;
 ```
 
-12 örnek sorgu: `sql/f1_ornek_sorgular.sql`  
-Kurulum: `Project/UPLOAD_READY/KURULUM.txt`
+12 örnek sorgu: `../../sql/f1_ornek_sorgular.sql`  
+Kurulum: `sql/f1_schema.sql` + `sql/f1_demo_seed.sql`
 
 ### 13.5 Projeyi öğrenme aracı olarak kullan
 
@@ -712,7 +713,7 @@ Kurulum: `Project/UPLOAD_READY/KURULUM.txt`
 4. `SAMPLE_QUERIES.sql` ile SQL pratiği yap.  
 5. Rapordaki normalizasyon bölümünü 3NF sorusu gibi çöz.
 
-Detay: `08_PROJE_F1_OZET.md`, `Project/HOCAYA_ANLATIM.md`
+Detay: [08_PROJE_F1_OZET.md](../notlar/08_PROJE_F1_OZET.md)
 
 ---
 
@@ -736,11 +737,11 @@ Her işlem için yaz:
 3. **Sonuç:** Red / Başarılı  
 4. **Etkilenen tablolar:** CASCADE zinciri tablo tablo  
 
-Örnek çözümler: `06_CIKMIS_SORULAR_COZUM.md`
+Örnek çözümler: [06_CIKMIS_SORULAR_COZUM.md](../notlar/06_CIKMIS_SORULAR_COZUM.md)
 
 ### 14.3 7 günlük yoğun plan
 
-`00_CALISMA_PLANI.md` — gün gün checklist.
+[00_CALISMA_PLANI.md](../notlar/00_CALISMA_PLANI.md) — gün gün checklist.
 
 ### 14.4 Son gece
 
@@ -793,37 +794,23 @@ Her işlem için yaz:
 
 ## 16. Kaynak dosya haritası
 
-### Ders materyalleri (klasör kökü)
+### Dış materyaller (repoda yok)
 
-| Tür | Konum |
-|-----|--------|
-| Slaytlar | `Elmasri_6e_Ch01.pptx` … `Ch09`, `Ch15`, `Ch21.pdf` |
-| COMPANY şema | `CompanySchema.pdf` |
-| Çıkmış | `ÇIKMIŞ/` (2021/2023 vize, final, isolation) |
-| Lab’ler | `LAB_eski/`, `LAB_yeni/` |
-| Proje | `Project/`, `Project/UPLOAD_READY/` |
+Slayt (Elmasri 6e), COMPANY PDF, çıkmış sınavlar — üniversite / ders kaynakları. Özetler `docs/notlar/` içinde.
 
-### Hazırlık paketi (konu bazlı kısa notlar)
+### Repo içi dosyalar
 
 | Dosya | İçerik |
 |-------|--------|
-| `README.md` | Paket rehberi |
-| `00_CALISMA_PLANI.md` | 7 günlük plan |
-| `01_OZET_NOTLAR.md` | Bölüm özetleri |
-| `02_SQL_KILAVUZU.md` | SQL + çıkmış sorgular |
-| `03_ER_EER_OZET.md` | ER/EER/mapping |
-| `04_NORMALIZASYON.md` | FD, NF |
-| `05_RELATIONAL_ALGEBRA.md` | Cebir |
-| `06_CIKMIS_SORULAR_COZUM.md` | Model çözümler |
-| `07_LAB_OZETLERI.md` | Lab köprüsü |
-| `08_PROJE_F1_OZET.md` | F1 sınav özeti |
-| `09_SINAV_ONCESI_KONTROL.md` | Son kontrol |
-| `sql/*.sql` | Çalıştırılabilir örnekler |
+| [README.md](../../README.md) | Repo ana sayfa |
+| [docs/INDEX.md](../INDEX.md) | Tüm dokümanlar |
+| [docs/notlar/](../notlar/) | 00–09 konu özetleri |
+| [sql/](../../sql/) | Çalıştırılabilir SQL |
 
 ### Önerilen çalışma akışı
 
 ```
-Bu doküman (A→Z) → Konu özeti (01–05) → sql/ pratik → 06 çıkmış → 09 kontrol
+Bu doküman (A→Z) → docs/notlar (01–05) → sql/ pratik → 06 çıkmış → 09 kontrol
 ```
 
 ---

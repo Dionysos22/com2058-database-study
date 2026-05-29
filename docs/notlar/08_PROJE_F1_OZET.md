@@ -1,6 +1,6 @@
 # Formula 1 Projesi – Sınav İçin Özet
 
-Tam dosyalar: `../Project/Requirements.md`, `ERD.md`, `Formula_1.sql`, `SAMPLE_QUERIES.sql`
+SQL: [`sql/f1_schema.sql`](../../sql/f1_schema.sql), [`sql/f1_ornek_sorgular.sql`](../../sql/f1_ornek_sorgular.sql)
 
 ---
 
@@ -75,7 +75,7 @@ GROUP BY t.team_id, t.team_name
 ORDER BY season_position;
 ```
 
-Daha fazla: `sql/f1_ornek_sorgular.sql` (12 sorgu)
+Daha fazla: [`sql/f1_ornek_sorgular.sql`](../../sql/f1_ornek_sorgular.sql) (12 sorgu)
 
 ---
 

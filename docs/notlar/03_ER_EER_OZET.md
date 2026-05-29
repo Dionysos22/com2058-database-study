@@ -104,4 +104,4 @@ PK genelde her iki entity’nin key’lerinin birleşimi + gerekirse ek attribut
 4. Üçgen: SEASON–TEAM–DRIVER (CONTRACTS)
 5. SEASON—STANDINGS—TEAM, RACE—RESULTS—DRIVER
 
-Detay: `08_PROJE_F1_OZET.md`, `../Project/ERD.md`
+Detay: [08_PROJE_F1_OZET.md](08_PROJE_F1_OZET.md)

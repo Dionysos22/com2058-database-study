@@ -171,7 +171,7 @@ WHERE O.NAME = C.NAME
 GROUP BY C.NAME;
 ```
 
-Tam script: `sql/lab6_ornek.sql`
+Tam script: [`sql/lab6_ornek.sql`](../../sql/lab6_ornek.sql)
 
 ---
 
